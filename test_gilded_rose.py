@@ -22,25 +22,26 @@ class GildedRoseTest(unittest.TestCase):
         all_items = gilded_rose.get_item()
         self.assertEqual(["Sulfuras"], all_items)
 
+    # logic error 1
     def test_aged_brie_increases_in_quality(self):
         items = [Item("Aged Brie", 5, 10)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(12, items[0].quality)  
 
+    # logic error 2
     def test_backstage_passes_quality_increases(self):
-        """Test backstage passes quality increase rules (logical error)"""
         items = [Item("Backstage passes to a TAFKAL80ETC concert", 4, 10)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
         self.assertEqual(14, items[0].quality)  
 
+    # logic error 3
     def test_normal_item_quality_degradation(self):
-        """Test that normal items degrade in quality correctly (logical error)"""
         items = [Item("Normal Item", -1, 10)]  
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(7, items[0].quality)  # Will fail because it only decreases by 1, not 2 after sell by date
+        self.assertEqual(7, items[0].quality)  
 
     # Syntax error
     def test_get_item_name(self):
