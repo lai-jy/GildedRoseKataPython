@@ -23,13 +23,11 @@ class NormalItem(ItemStrategy):
 class AgedBrie(ItemStrategy):
     def update(self, item):
         item.sell_in -= 1
-        # Quality increases by 2 when sell_in is negative, 1 otherwise
         quality_increment = 2 if item.sell_in < 0 else 1
         item.quality = min(50, item.quality + quality_increment)
 
 class Sulfuras(ItemStrategy):
     def update(self, item):
-        # Sulfuras's sell_in should decrease according to the test
         item.sell_in -= 1
         item.quality = 80  
 
@@ -64,6 +62,7 @@ class GildedRose(object):
     }
 
     def __init__(self, items: list[Item]):
+        # DO NOT CHANGE THIS ATTRIBUTE!!!
         self.items = items
 
     def update_quality(self):
