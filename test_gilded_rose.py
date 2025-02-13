@@ -22,26 +22,32 @@ class GildedRoseTest(unittest.TestCase):
         all_items = gilded_rose.get_item()
         self.assertEqual(["Sulfuras"], all_items)
 
-    # logic error 1
-    def test_aged_brie_increases_in_quality(self):
-        items = [Item("Aged Brie", 5, 10)]
+    # logic error 1: Quality can never be negative
+    def test_quality_never_negative(self):
+        items = [Item("Normal Item", 5, 0)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(12, items[0].quality)  
+        self.assertEqual(0, items[0].quality)
 
-    # logic error 2
-    def test_backstage_passes_quality_increases(self):
-        items = [Item("Backstage passes to a TAFKAL80ETC concert", 4, 10)]
+    # logic error 2: Quality can never exceed 50 (except Sulfuras)
+    def test_quality_never_exceeds_fifty(self):
+        items = [Item("Aged Brie", 5, 49)]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(14, items[0].quality)  
+        self.assertEqual(50, items[0].quality)
+        gilded_rose.update_quality()
+        self.assertEqual(50, items[0].quality)  
 
-    # logic error 3
-    def test_normal_item_quality_degradation(self):
-        items = [Item("Normal Item", -1, 10)]  
+    # logic error 3: Conjured items degrade twice as fast
+    def test_conjured_items_degrade_twice(self):
+        items = [
+            Item("Normal Item", 5, 10),
+            Item("Conjured", 5, 10)
+        ]
         gilded_rose = GildedRose(items)
         gilded_rose.update_quality()
-        self.assertEqual(7, items[0].quality)  
+        self.assertEqual(9, items[0].quality)  
+        self.assertEqual(8, items[1].quality)  
 
     # Syntax error
     def test_get_item_name(self):
